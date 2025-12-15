@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+      http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- MemberDTO bean 등록
+        속성
+           index = 필드 의 순서대로 설정
+           name = 필드 명을 기준으로 설정
+           value = 필드에 넣을 값
+    -->
+    <!-- 1.생성자 주입 -->
+<!--    <bean id="member2" class="com.ohgiraffers.common.MemberDTO">-->
+<!--        <constructor-arg index="0" value="1"></constructor-arg>-->
+<!--        <constructor-arg name="id" value="user01"/>-->
+<!--        <constructor-arg index="2" ><value>pass01</value></constructor-arg>-->
+<!--        <constructor-arg name="name"><value>홍길동</value></constructor-arg>-->
+<!--    </bean>-->
+
+    <!-- 2. setter 주입 -->
+    <bean id="member2" class="com.ohgiraffers.common.MemberDTO">
+        <property name="sequence" value="1"/>
+        <property name="id" value="user02"/>
+        <property name="pawd" value="pass01"/>
+        <property name="name" value="홍길동"/>
+    </bean>
+</beans>
