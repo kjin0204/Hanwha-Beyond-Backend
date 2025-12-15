@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argo-boot-dep
+  annotations:
+    argocd.argoproj.io/sync-wave: "3" 
+spec:
+  selector:
+    matchLabels:
+      app: bootdep
+  # replicas: 3
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bootdep
+    spec:
+      containers:
+      - name: boot-container
+        image: kang92/jen_19_boot2:3
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 7777
+        # MariaDB ?∞Í≤∞???ÑÌïú ?òÍ≤ΩÎ≥Ä???§Ï†ï
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mariadb://argo-mariadb-ser:3310/calcdb"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "root"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "root1234"
+        # Health Check - Spring BootÍ∞Ä ?ïÏÉÅ ?§Ìñâ?òÎäîÏßÄ ?ïÏù∏
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 7777
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 7777
+          initialDelaySeconds: 60
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
