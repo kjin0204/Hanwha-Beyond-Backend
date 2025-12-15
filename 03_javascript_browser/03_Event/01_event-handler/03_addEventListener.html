@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>03. addEventListener 메소드 방식</h1>
+    <p>요소들에서 제공하는 addEventListener 메소드를 사용하는 방식이다.</p>
+    <button id="btn">클릭해 보세</button>
+    <script>
+        const $button = document.querySelector('#btn');
+        /*
+            addEvnetListener의 첫 번째 인수로는 이벤트의 종류(타입)를 문자열로,
+            두 번째는 이벤트 핸들러 역활을 할 함수를 부여
+            (이벤트 핸들러 함수를 복수개 바인딩 할 수 있다.)
+        */
+        $button.addEventListener('mouseover', function() {
+            console.log('버튼 마우스 over')
+        });
+
+        $button.addEventListener('click', function() {
+            alert('클릭했네?2');
+        });
+        
+        $button.addEventListener('click', function() {
+            alert('클릭했네?3');
+        });
+    </script>
+</body>
+</html>
