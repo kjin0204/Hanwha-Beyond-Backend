@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #donut-chart {
+            position: relative;
+            height: 50vh;
+            overflow: hidden;
+        }
+
+        #line-chart {
+            position: relative;
+            height: 50vh;
+            width: 80vh;
+            overflow: hidden;
+        }
+
+        #mountain-chart {
+            position: relative;
+            height: 50vh;
+            width: 80vh;
+            overflow: hidden;
+        }
+
+        #mountain-chart2 {
+            position: relative;
+            height: 50vh;
+            width: 80vh;
+            overflow: hidden;
+        }
+
+        #mountain-chart3 {
+            position: relative;
+            height: 50vh;
+            width: 80vh;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="donut-chart"></div>
+    <div id="line-chart"></div>
+    <!-- 도넛 -->
+    <script>
+        var dom = document.getElementById('donut-chart');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+
+
+        var option;
+
+        option = {
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                top: '5%',
+                left: 'center',
+            },
+            series: [
+                {
+                    name: '',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: {
+                        borderRadius: 10,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    },
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: 40,
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: [
+                        { value: 10, name: '흭득', itemStyle: { color: '#ABF200' } },
+                        { value: 100, name: '미흭득', itemStyle: { color: '#BDBDBD' } }
+                    ]
+                }
+            ]
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+
+        window.addEventListener('resize', myChart.resize);
+    </script>
+    <!-- 라인 -->
+    <script>
+        var dom = document.getElementById('line-chart');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+
+
+        var option;
+
+        option = {
+            xAxis: {
+                type: 'category',
+                data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    data: [10, 5, 3, 7, 0, 1, 2, 15, 2, 3, 4, 1,],
+                    type: 'line',
+                    color: '#1DDB16' //색상 코드
+                }
+            ]
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+
+        window.addEventListener('resize', myChart.resize);
+    </script>
+
+    <!--산신령 도넛 차트-->
+    <div id="mountain-chart"></div>
+    <script>
+        var dom = document.getElementById('mountain-chart');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+
+
+        var option;
+
+        option = {
+            title: {
+                text: '관악산',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [
+                {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: '60%',
+                    label: {
+                        show: true,
+                        fontSize: 25, // ✅ 각 항목 이름(label) 글씨 크기
+                        distanceToLabelLine: 30, // ✅ 원과 글씨 사이 거리
+                        formatter: '{b}\n{c}' // ✅ {b}=이름, {c}=값 (줄바꿈으로 중간에 값 표시)
+                        // formatter: '{b}: {c}' 로 하면 한 줄로 이름:값 표시
+                    },
+                    labelLine: {
+                        show: true,
+                        length: 60,     // ✅ 첫 번째 선 길이
+                        length2: 45,    // ✅ 두 번째 선 길이
+                        lineStyle: {
+                            width: 3,     // ✅ 선 굵기
+                            color: '#666' // ✅ 선 색상 (원하는 색으로 조정 가능)
+                        }
+                    },
+                    data: [
+                        { value: 500, name: '꼬부기' },
+                        { value: 450, name: '파이리' },
+                        { value: 300, name: '거북왕' },
+                        { value: 150, name: '리자몽' },
+                        { value: 130, name: '피카츄' },
+                        { value: 60, name: '망나뇽' }
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        },
+
+                    }
+                }
+            ]
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+
+        window.addEventListener('resize', myChart.resize);
+    </script>
+
+    
+    <!--산신령 북한산 도넛 차트-->
+    <div id="mountain-chart2"></div>
+    <script>
+        var dom = document.getElementById('mountain-chart2');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+
+
+        var option;
+
+        option = {
+            title: {
+                text: '북한산',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [
+                {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: '60%',
+                    label: {
+                        show: true,
+                        fontSize: 25, // ✅ 각 항목 이름(label) 글씨 크기
+                        distanceToLabelLine: 30, // ✅ 원과 글씨 사이 거리
+                        formatter: '{b}\n{c}' // ✅ {b}=이름, {c}=값 (줄바꿈으로 중간에 값 표시)
+                        // formatter: '{b}: {c}' 로 하면 한 줄로 이름:값 표시
+                    },
+                    labelLine: {
+                        show: true,
+                        length: 60,     // ✅ 첫 번째 선 길이
+                        length2: 45,    // ✅ 두 번째 선 길이
+                        lineStyle: {
+                            width: 3,     // ✅ 선 굵기
+                            color: '#666' // ✅ 선 색상 (원하는 색으로 조정 가능)
+                        }
+                    },
+                    data: [
+                        { value: 570, name: '아구몬' },
+                        { value: 350, name: '파피몬' },
+                        { value: 170, name: '그레이몬' },
+                        { value: 120, name: '파닥몬' },
+                        { value: 100, name: '엔젤몬' },
+                        { value: 30, name: '가루몬' }
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        },
+
+                    }
+                }
+            ]
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+
+        window.addEventListener('resize', myChart.resize);
+    </script>
+
+    
+    <!--빈 도넛 차트-->
+    <div id="mountain-chart3"></div>
+    <script>
+        var dom = document.getElementById('mountain-chart3');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+
+
+        var option;
+
+        option = {
+            title: {
+                text: '',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [
+                {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: '60%',
+                    label: {
+                        show: true,
+                        fontSize: 25, // ✅ 각 항목 이름(label) 글씨 크기
+                        distanceToLabelLine: 30, // ✅ 원과 글씨 사이 거리
+                        formatter: '{b}\n{c}' // ✅ {b}=이름, {c}=값 (줄바꿈으로 중간에 값 표시)
+                        // formatter: '{b}: {c}' 로 하면 한 줄로 이름:값 표시
+                    },
+                    labelLine: {
+                        show: true,
+                        length: 60,     // ✅ 첫 번째 선 길이
+                        length2: 45,    // ✅ 두 번째 선 길이
+                        lineStyle: {
+                            width: 3,     // ✅ 선 굵기
+                            color: '#666' // ✅ 선 색상 (원하는 색으로 조정 가능)
+                        }
+                    },
+                    data: [
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        },
+
+                    }
+                }
+            ]
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+
+        window.addEventListener('resize', myChart.resize);
+    </script>
+
+</body>
+
+</html>
