@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohgiraffers.xmlmapper.ElementMapper">
+    <resultMap id="menuResultMap" type="com.ohgiraffers.xmlmapper.MenuDTO"> <!-- typeAlias 적용 이후 -->
+        <id property="menuCode" column="MENU_CODE"/> <!-- pk 컬럼은 id 태그를 사용하면 속도 향상의 이점-->
+        <result property="menuName" column="MENU_NAME"/>
+        <result property="menuPrice" column="MENU_PRICE"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+    </resultMap>
+    <resultMap id="menuResultMap2" type="com.ohgiraffers.xmlmapper.MenuDTO" extends="menuResultMap">
+        <result property="orderableStatus" column="ORDERABLE_STATUS"/>
+    </resultMap>
+
+    <select id="selectResultMapTest" resultMap="menuResultMap2">
+        SELECT
+        A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        WHERE ORDERABLE_STATUS = 'Y'
+    </select>
+    <!-- 1. Association 관계에서 resultMap 2개 활용 -->
+<!--    <resultMap id="MenuAndCategoryResultMap"-->
+<!--               type="com.ohgiraffers.xmlmapper.MenuAndCategoryDTO">-->
+<!--        <id property="menuCode" column="MENU_CODE"/> &lt;!&ndash; pk 컬럼은 id 태그를 사용하면 속도 향상의 이점&ndash;&gt;-->
+<!--        <result property="menuName" column="MENU_NAME"/>-->
+<!--        <result property="menuPrice" column="MENU_PRICE"/>-->
+<!--        <result property="orderableStatus" column="ORDERABLE_STATUS"/>-->
+<!--        <association property="category" resultMap="categoryResult"/>-->
+<!--    </resultMap>-->
+
+<!--    <resultMap id="categoryResult" type="com.ohgiraffers.xmlmapper.CategoryDTO">-->
+<!--        <id property="categoryCode" column="CATEGORY_CODE"/>-->
+<!--        <result property="categoryName" column="CATEGORY_NAME"/>-->
+<!--        <result property="refCategoryCode" column="REF_CATEGORY_CODE"/>-->
+<!--    </resultMap>-->
+
+    <!-- 2. Association 관계에서 resultMap 1개 활용 -->
+    <resultMap id="MenuAndCategoryResultMap"
+               type="com.ohgiraffers.xmlmapper.MenuAndCategoryDTO">
+        <id property="menuCode" column="MENU_CODE"/> <!-- pk 컬럼은 id 태그를 사용하면 속도 향상의 이점-->
+        <result property="menuName" column="MENU_NAME"/>
+        <result property="menuPrice" column="MENU_PRICE"/>
+        <result property="orderableStatus" column="ORDERABLE_STATUS"/>
+        <association property="category" javaType="com.ohgiraffers.xmlmapper.CategoryDTO">
+            <id property="categoryCode" column="CATEGORY_CODE"/>
+            <result property="categoryName" column="CATEGORY_NAME"/>
+            <result property="refCategoryCode" column="REF_CATEGORY_CODE"/>
+        </association>
+    </resultMap>
+
+
+    <select id="selectResultMapAssociationTest" resultMap="MenuAndCategoryResultMap">
+        SELECT
+               A.MENU_CODE
+             , A.MENU_NAME
+             , A.MENU_PRICE
+             , A.CATEGORY_CODE
+             , B.CATEGORY_NAME
+             , B.REF_CATEGORY_CODE
+             , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        JOIN TBL_CATEGORY B ON (A.CATEGORY_CODE = B.CATEGORY_CODE)
+        WHERE A.ORDERABLE_STATUS = 'Y'
+    </select>
+
+    <!-- 3. Collection 관계에서 resultMap 2개 활용 -->
+<!--    <resultMap id="categoryAndMenuResultMap"-->
+<!--               type="com.ohgiraffers.xmlmapper.CategoryAndMenuDTO">-->
+<!--        <id property="categoryCode" column="CATEGORY_CODE"/>&lt;!&ndash; 같은 컬럼은 에러는 나지 않지만 가급적 별칭 활용 &ndash;&gt;-->
+<!--        <result property="categoryName" column="CATEGORY_NAME"/>-->
+<!--        <result property="refCategoryCode" column="REF_CATEGORY_CODE"/>-->
+<!--        <collection property="menus" resultMap="menuResultMap3"/>-->
+<!--    </resultMap>-->
+
+<!--    <resultMap id="menuResultMap3" type="com.ohgiraffers.xmlmapper.MenuDTO" >-->
+<!--        <id property="menuCode" column="MENU_CODE"/>-->
+<!--        <result property="menuName" column="MENU_NAME"/>-->
+<!--        <result property="menuPrice" column="MENU_PRICE"/>-->
+<!--        <result property="categoryCode" column="CATEGORY_CODE"/>-->
+<!--        <result property="orderableStatus" column="ORDERABLE_STATUS"/>-->
+<!--    </resultMap>-->
+
+    <!-- 4. Collection 관계에서 resultMap 1개 활용 -->
+    <resultMap id="categoryAndMenuResultMap"
+               type="com.ohgiraffers.xmlmapper.CategoryAndMenuDTO">
+        <id property="categoryCode" column="CATEGORY_CODE"/><!-- 같은 컬럼은 에러는 나지 않지만 가급적 별칭 활용 -->
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="refCategoryCode" column="REF_CATEGORY_CODE"/>
+        <collection property="menus" ofType="com.ohgiraffers.xmlmapper.MenuDTO">
+            <id property="menuCode" column="MENU_CODE"/>
+            <result property="menuName" column="MENU_NAME"/>
+            <result property="menuPrice" column="MENU_PRICE"/>
+            <result property="categoryCode" column="CATEGORY_CODE"/>
+            <result property="orderableStatus" column="ORDERABLE_STATUS"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectResultMapCollectionTest" resultMap="categoryAndMenuResultMap">
+        SELECT
+                A.CATEGORY_CODE
+              , A.CATEGORY_NAME
+              , A.REF_CATEGORY_CODE
+              , B.MENU_CODE
+              , B.MENU_NAME
+              , B.MENU_PRICE
+              , B.CATEGORY_CODE
+              , B.ORDERABLE_STATUS
+          FROM TBL_CATEGORY A
+          JOIN TBL_MENU B ON (A.CATEGORY_CODE = B.CATEGORY_CODE)
+         WHERE B.ORDERABLE_STATUS = 'Y'
+         ORDER BY A.CATEGORY_CODE
+    </select>
+
+</mapper>
