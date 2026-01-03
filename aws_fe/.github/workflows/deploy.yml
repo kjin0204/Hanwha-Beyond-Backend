@@ -1,15 +1,13 @@
-name: Deploy to AWS Elastic Beanstalk
+name: AWS Deploy
 
+# GitHub 저장소 읽기 및 PR 쓰기 권한을 설정
 permissions:
   contents: read
   pull-requests: write
 
 on:
-  pull_request:
-    types: [ opened, reopened, synchronize ]
   push:
-    branches:
-      - "main"
+    branches: [ "main" ]
 
 jobs:
   deploy:
