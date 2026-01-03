@@ -57,8 +57,20 @@ jobs:
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: Camp-v
-        environment_name: Camp-v-env
+        application_name: ai-a
+        environment_name: Ai-a-env
+        version_label: github-action-${{ github.sha }}
+        region: ap-northeast-2
+        deployment_package: deploy/deploy.zip
+
+
+    - name: Beanstalk Deploy
+      uses: einaregilsson/beanstalk-deploy@v22
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: ai-a
+        environment_name: Ai-b-env
         version_label: github-action-${{ github.sha }}
         region: ap-northeast-2
         deployment_package: deploy/deploy.zip
